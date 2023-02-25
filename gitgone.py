@@ -14,14 +14,21 @@ def search(url, token, searchTerm):
     }
     response = requests.get(url, headers=headers)
     data = json.loads(response.text)
+    with open('gitgone.json', 'w') as f:
+        json.dump(data, f)
 
     feed = []
-    item_feed = {}
     for item in data['items']:
-        url = item['html_url'].replace('/blob', '').replace('https://github.com', 'https://raw.githubusercontent.com')
-        item_feed['url'] = url
+        item_feed = {}
+        url_raw = item['html_url'].replace('/blob', '').replace('https://github.com', 'https://raw.githubusercontent.com')
+        item_feed['url_raw'] = url_raw
+        item_feed['url'] = item['html_url']
         item_feed['name'] = item['name']
-        item_feed['extension'] = item['name'].split('.')[1]
+        extension = item['name'].split('.')
+        if(len(extension) > 1):
+            item_feed['extension'] = extension[1]
+        else:
+            item_feed['extension'] = ""
         item_feed['extracted'] = []
         response = requests.get(url)
         text = response.text
