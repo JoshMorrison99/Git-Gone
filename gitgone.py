@@ -30,7 +30,7 @@ def search(url, token, searchTerm):
         else:
             item_feed['extension'] = ""
         item_feed['extracted'] = []
-        response = requests.get(url)
+        response = requests.get(url_raw)
         text = response.text
         matches = re.findall(f'{searchTerm}', text, re.IGNORECASE)
         secrets = []
