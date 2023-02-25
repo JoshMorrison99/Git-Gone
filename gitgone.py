@@ -14,8 +14,6 @@ def search(url, token, searchTerm):
     }
     response = requests.get(url, headers=headers)
     data = json.loads(response.text)
-    with open('gitgone.json', 'w') as f:
-        json.dump(data, f)
 
     feed = []
     item_feed = {}
